@@ -2,6 +2,7 @@
 
 var app = require('express')();
 var path = require('path');
+var passport = require('passport');
 var session = require('express-session');
 
 app.use(require('./logging.middleware'));
@@ -12,11 +13,14 @@ app.use(session({
     secret: "tongiscool"
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 var timeout = 30 * 60 * 1000;
 
 app.use( function( req, res, next ) {
-  if( req.session.userId ) {
-    console.log( "request from user:", req.session.userId );
+  if( req.user ) {
+    console.log( "request from user:", req.user.email );
     if(req.session.signinTime + timeout < Date.now()) {
       delete req.session.userId;
       console.log("Signin timedout");
