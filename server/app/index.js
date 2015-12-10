@@ -2,16 +2,29 @@
 
 var app = require('express')();
 var path = require('path');
+var session = require('express-session');
 
 app.use(require('./logging.middleware'));
 
 app.use(require('./requestState.middleware'));
 
+app.use(session({
+    secret: "tongiscool"
+}));
 
-app.use('/auth', require('./auth'));
+app.use( function( req, res, next ) {
+  if( req.session.userId ) {
+    console.log( "request from user:", req.session.userId )
+  } else {
+    console.log( "request from someone who isn't logged in")
+  }
+
+  next();
+})
 
 app.use(require('./statics.middleware'));
 
+app.use('/auth', require('./auth'));
 app.use('/api', require('../api/api.router'));
 
 
