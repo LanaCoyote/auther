@@ -1,20 +1,23 @@
 <div class="container story-container">
 	<ul class="list-inline large-font">
 		<li>
-			<span contenteditable
+			<span contenteditable="{{isAuthenticated()}}"
 				  class="large-font"
 				  ng-model="story.title"
 				  ng-model-options="{debounce: 500}"></span>
 		</li>
 		<li><span class="muted">by</span></li>
 		<li>
-			<select ng-options="user as user.name for user in users track by user._id"
+			<select 
+					ng-show="{{isAuthenticated()}}"
+					ng-options="user as user.name for user in users track by user._id"
 					ng-model="story.author"
 					ng-model-options="{debounce: 500}"></select>
+					<span ng-hide="{{isAuthenticated()}}">{{story.author.name}}</span>
 		</li>
 	</ul>
 	<br>
-	<p contenteditable
+	<p contenteditable="{{isAuthenticated()}}"
 		ng-model="story.paragraphs"
 		ng-model-options="{debounce: 500}"
 		ng-list="<br><br>"

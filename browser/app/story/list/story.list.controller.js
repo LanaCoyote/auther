@@ -1,6 +1,6 @@
 'use strict';
 
-app.controller('StoryListCtrl', function ($scope, stories, Story, users) {
+app.controller('StoryListCtrl', function ($scope, stories, Story, users, Auth) {
 	$scope.stories = stories;
 	$scope.users = users;
 
@@ -22,4 +22,7 @@ app.controller('StoryListCtrl', function ($scope, stories, Story, users) {
 			$scope.stories.unshift(created);
 		});
 	};
+	
+	$scope.isAuthenticated = Auth.isAuthenticated;
+	$scope.isSuperUser = Auth.isSuperUser;
 });

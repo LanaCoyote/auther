@@ -12,9 +12,15 @@ app.use(session({
     secret: "tongiscool"
 }));
 
+var timeout = 30 * 60 * 1000;
+
 app.use( function( req, res, next ) {
   if( req.session.userId ) {
-    console.log( "request from user:", req.session.userId )
+    console.log( "request from user:", req.session.userId );
+    if(req.session.signinTime + timeout < Date.now()) {
+      delete req.session.userId;
+      console.log("Signin timedout");
+    }
   } else {
     console.log( "request from someone who isn't logged in")
   }

@@ -13,10 +13,10 @@
 	</div>
 	<br>
 	<ul class="list-group">
-		<li class="list-group-item story-item">
+		<li ng-show="{{isAuthenticated()}}" class="list-group-item story-item">
 			<ul class="list-inline">
 				<li>
-					<span class="large-font" contenteditable ng-model="newStory.title" placeholder="Story Title"></span>
+					<span class="large-font" contenteditable="{{isAuthenticated()}}" ng-model="newStory.title" placeholder="Story Title"></span>
 				</li><li>
 					<span>by</span>
 				</li><li>
@@ -39,7 +39,7 @@
 					<a ui-sref="user({id: story.author._id})">{{ story.author.name }}</a>
 				</li>
 			</ul>
-			<button class="btn btn-default btn-xs" ng-click="removeStory(story)">
+			<button ng-show="{{isSuperUser()}}" class="btn btn-default btn-xs" ng-click="removeStory(story)">
 				<span class="glyphicon glyphicon-remove"></span>
 			</button>
 		</li>

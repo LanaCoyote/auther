@@ -1,6 +1,6 @@
 'use strict';
 
-app.directive('userItem', function () {
+app.directive('userItem', function (Auth) {
 	return {
 		restrict: 'E',
 		templateUrl: '/browser/app/user/item/user.item.html',
@@ -24,6 +24,10 @@ app.directive('userItem', function () {
 					scope.user.isDestroyed = true;
 				});
 			};
+			scope.isCurrentUser = function() {
+				return Auth.isAuthenticated() && scope.user._id === Auth.getUser()._id;
+			}
+			scope.isSuperUser = Auth.isSuperUser;
 		}
 	}
 });

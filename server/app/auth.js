@@ -4,6 +4,7 @@ var User = require('../api/users/user.model');
 router.post('/signup', function(req, res, next){
   User.create(req.body).then(function(user){
     req.session.userId = user._id;
+    req.session.signinTime = Date.now();
     res.status(200).json(user);
   }).then(null, function(error){
     error.status = 401;
@@ -20,6 +21,7 @@ router.post('/login', function(req, res, next){
     else return user;
   }).then(function(user){
     req.session.userId = user._id;
+    req.session.signinTime = Date.now();
     res.status(200).json(user);
   }).then(null, function(error){
     error.status = 401;
@@ -44,4 +46,31 @@ router.post( '/logout', function( req, res, next ) {
 
 });
 
+router.get('/me', function(req, res, next){
+  if(req.session.userId){
+    User.findById(req.session.userId).then(function(user){
+      res.status(200).json(user);
+    }).then(null, function(error){
+      error.status = 401;
+      next(error);
+    });
+  }
+  else {
+    var error = new Error("Not signed in.");
+    error.status = 401;
+    next(error);
+  }
+})
+
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
