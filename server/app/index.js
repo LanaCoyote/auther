@@ -7,9 +7,13 @@ app.use(require('./logging.middleware'));
 
 app.use(require('./requestState.middleware'));
 
+
+app.use('/auth', require('./auth'));
+
 app.use(require('./statics.middleware'));
 
 app.use('/api', require('../api/api.router'));
+
 
 var validFrontendRoutes = ['/', '/stories', '/users', '/stories/:id', '/users/:id', '/signup', '/login'];
 var indexPath = path.join(__dirname, '..', '..', 'public', 'index.html');
